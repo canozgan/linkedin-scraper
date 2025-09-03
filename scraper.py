@@ -55,17 +55,19 @@ class Scraper():
                     if pop_up.is_visible():
                         pop_up.click()
 
-                    # Scroll down until see the button "see more job"
+                    # Scroll down until see the button "see more job", max 10 times
                     more_job_button_class_text = (
                         ".infinite-scroller__show-more-button."
                         "infinite-scroller__show-more-button--visible"
                     )
                     more_job_button = page.locator(more_job_button_class_text)
+                    scroll_down_counter = 0
 
-                    while more_job_button.count() < 1:
+                    while more_job_button.count() < 1 and scroll_down_counter < 10:
                         page.mouse.wheel(0, 1000)  # scroll down 1000px
                         time.sleep(2)  # wait 2 seconds
-
+                        scroll_down_counter += 1
+                    
                     # click button until the page reaches the target number of items
                     item_class_text = ".base-card"
                     current_items = page.locator(item_class_text)
